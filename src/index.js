@@ -9,18 +9,22 @@ export function createForm({ form, fields }) {
   return (Component) => {
     class ReduxForm extends React.Component {
       static propTypes = {
-        dispatch: PropTypes.func.isRequired,
         form: PropTypes.object,
       };
 
-      static defaultProps = {
-        dispatch: () => { throw new Error(`[redux-form-utils] Please pass \`dispatch\` to ${form}`); },
+      static contextTypes = {
+        store: React.PropTypes.object
       };
 
-      constructor() {
-        super();
+      constructor(props) {
+        super(props);
         this.displayName = form + 'Form';
         this.state = {};
+
+        this.dispatch = this.props.dispatch || this.context.dispatch;
+        if (typeof this.dispatch !== 'function') {
+          throw new ReferenceError(`[redux-form-utils] Please pass \`dispatch\` to ${form} as props or connect it with Redux's store.`);
+        }
       }
 
       handleChange(key, e) {
@@ -29,7 +33,7 @@ export function createForm({ form, fields }) {
           value = e.target.value;
         }
 
-        this.props.dispatch({
+        this.dispatch({
           type: '@@form/VALUE_CHANGE',
           meta: {
             form: form,
@@ -41,7 +45,7 @@ export function createForm({ form, fields }) {
       }
 
       clearAll() {
-        this.props.dispatch({
+        this.dispatch({
           type: '@@form/CLEAR_ALL',
           meta: {
             form: form,
@@ -51,7 +55,7 @@ export function createForm({ form, fields }) {
 
       clear(field) {
         if (field && fields.indexOf(field) > -1) {
-          this.props.dispatch({
+          this.dispatch({
             type: '@@form/CLEAR',
             meta: {
               form: form,
