@@ -4,7 +4,7 @@ redux-form-utils [![Build Status](https://travis-ci.org/jasonslyvia/redux-form-u
 Make handling forms in Redux less painful by providing 2 helpful utility functions:
 
  - `createForm(options)`: return a [Higher Order Component](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) which will pass all required form bindings (eg. `value`, `onChange` and more) to children
- - `bindRedux(options)`: return a object consists of 3 keys:
+ - `bindRedux(options)`: return an object consists of 3 keys:
    - `state`: the initialState of the form
    - `reducer`: a reducer function handling form related actions
    - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
@@ -174,13 +174,13 @@ This object is in shape of:
 
 ### form
 
-Type: String Default: undefined Required: true
+Type: *String* Default: *undefined* Required: *true*
 
-An unique string key for your form.
+A unique string key for your form.
 
 ### fields
 
-Type: Array Default: [] Required: true
+Type: *Array* Default: *[]* Required: *true*
 
 An array of form fields configuration.
 
@@ -212,9 +212,9 @@ fields: [{
   key: 'startDate',
   changeType: 'onSwitch',
   valueKey: 'date',
-  // This resolver is called when your `onChange` callback (In this case, `onSwitch`) is called, it will be called
-  // with excatly the same arguments provided to `onChange`, so you can resolve the payload
-  // of what to change by your own
+  // This resolver is called when your `onChange` callback (In this case, `onSwitch`) is called,
+  // it will be called with excatly the same arguments provided to `onChange`, so you can resolve
+  //the payload of what to change by your own
   resolver(date){
     return {
       date: date.focusedDate
