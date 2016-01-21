@@ -5,9 +5,9 @@ Make handling forms in Redux less painful by providing 2 helpful utility functio
 
  - `createForm(options)`: return a [Higher Order Component](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) which will pass all required form bindings (eg. `value`, `onChange` and more) to children
  - `bindRedux(options)`: return a object consists of 3 keys:
-  - `state`: the initialState of the form
-  - `reducer`: a reducer function handling form related actions
-  - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
+   - `state`: the initialState of the form
+   - `reducer`: a reducer function handling form related actions
+   - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
 
 ## Why
 
@@ -27,12 +27,20 @@ class Form extends React.Component {
    this.props.changeAddress(e.target.value);
   }
 
+  handleChangeGender(e) {
+    this.props.changeGender(e.target.value);
+  }
+
   render() {
     return (
-      <div className="form">
+      <form className="form">
         <input name="name" value={this.props.name} onChange={::this.handleChangeName} />
         <input name="address" value={this.props.address} onChange={::this.handleChangeAddress} />
-      </div>
+        <select name="gender" value={this.props.gender} onChange={::this.handleChangeGender}>
+          <option value="male" />
+          <option value="female" />
+        </select>
+      </form>
     );
   }
 }
@@ -47,16 +55,21 @@ import { createForm } from 'redux-form-utils';
 
 @createForm({
   form: 'my-form',
-  fields: ['name', 'address']
+  fields: ['name', 'address', 'gender']
 })
 class Form extends React.Component {
   render() {
-    const { name, address } = this.props.fields;
+    // What is `this.props.fields`? This will be explained in the following docs.
+    const { name, address, gender } = this.props.fields;
     return (
-      <div className="form">
+      <form className="form">
         <input name="name" {...name} />
         <input name="address" {...address} />
-      </div>
+        <select {...gender}>
+          <option value="male" />
+          <option value="female" />
+        </select>
+      </form>
     );
   }
 }
@@ -82,7 +95,7 @@ To completely make use of `redux-form-utils`, you have at least 2 steps to go.
 
 First thing is you should enhance your component by using `createForm` function.
 
-In aforementioned example, I use this function as [decorater](https://developer.mozilla.org/en-US/docs/Decorators), if it bugs you, you can switch to normal function paradigm.
+In aforementioned example, I use this function as a [decorater](https://developer.mozilla.org/en-US/docs/Decorators). If it bugs you, you can switch to normal function paradigm.
 
 ```javascript
 import { createForm } from 'redux-form-utils';
@@ -103,9 +116,130 @@ const EnhancedForm = createForm({
   form: 'my-form',
   fields: ['name', 'address']
 })(Form);
+```
+
+By enhancing your component, it achieves 3 extra `props`:
+
+ - `fields`(*Object*) An object contains fields you defined in `createForm` option, it looks like this `{fields: { name: { value: '', onChange: Function }}}`
+ - `clear(field)`(*Function*)  An action creator that will clear certain field
+ - `clearAll()`(*Function*) An action creator to clear all fields in this form
+
+Then in your component's `render()` method, destructure these fields to form controls like `input`, `textarea` or `select`.
+
+```javascript
+const { name } = this.props.fields;
+<input {...name} />  // Give `input` a `value` props and a `onChange` props
+```
+
+That's all your need to do to enhance your component.
+
+### Enhance your reducer
+
+The second and the last thing to do is enhance your reducer.
+
+Basically you should compose your form state to your reducer's `initialState`, and handle form actions in your reducer.
+
+```javascript
+import { bindRedux } from 'redux-form-utils';
+const { state: formState , reducer: formReducer } = bindRedux({
+  form: 'my-form',
+  fields: ['name', 'address']
+});
+
+// Compose initialState with formState
+const initialState = {
+  foo: 1,
+  bar: 2,
+  ...formState
+};
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case 'XXX_ACTION': {
+      // Do sth for your own action
+    }
+
+    default:
+      // Let formReducer handle default situation instead of returning state directly
+      return formReducer(state, action);
+  }
+}
+```
+
+## Options
+
+Both `createForm` and `bindRedux` accept the same parameter: an object of your form's configuration.
+
+This object is in shape of:
+
+### form
+
+Type: String Default: undefined Required: true
+
+An unique string key for your form.
+
+### fields
+
+Type: Array Default: [] Required: true
+
+An array of form fields configuration.
+
+For the simple way, you can pass an array of strings.
+
+```
+// Configure fields like this
+fields: ['name']
+
+// Get a props in your component like this
+{
+  fields: {
+    name: {
+      value: '',
+      onChange: Function
+    }
+  }
+}
 
 ```
 
+It's quite enough for normal `input` and `select`, but for composite React components, like a `Calendar` or `react-reselect`, `value` and `onChange` seems insuffient.
+
+So you can configure your field in an object as well:
+
+```javascript
+// Configure fields like this
+fields: [{
+  key: 'startDate',
+  changeType: 'onSwitch',
+  valueKey: 'date',
+  // This resolver is called when your `onChange` callback (In this case, `onSwitch`) is called, it will be called
+  // with excatly the same arguments provided to `onChange`, so you can resolve the payload
+  // of what to change by your own
+  resolver(date){
+    return {
+      date: date.focusedDate
+    };
+  }
+}]
+
+// Get a props in your component like this
+{
+  fields: {
+    startDate: {
+      date: '',
+      onSwitch: Function
+    }
+  }
+}
+
+// Use props in component like this
+const { startDate } = this.props.fields;
+<Calendar {...startDate} />
+```
+
+## Tips
+
+Since both `createForm` and `bindRedux` require the same option, it's wise to store these options into separate files and require them in your component and reducer.
 
 ## Scripts
 
