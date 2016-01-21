@@ -1,11 +1,11 @@
 {
   "name": "redux-form-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ease the pain of handling form bindings in Redux",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha test",
-    "test-watch": "./node_modules/.bin/mocha test -w",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-register test",
+    "test:watch": "./node_modules/.bin/mocha  --compilers js:babel-register  test -w",
     "watch": "NODE_ENV=production ./node_modules/.bin/babel src/ --out-dir lib/ -w",
     "build": "NODE_ENV=production ./node_modules/.bin/babel src/ --out-dir lib/"
   },
@@ -28,11 +28,13 @@
   "homepage": "https://github.com/jasonslyvia/redux-form-utils#readme",
   "devDependencies": {
     "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "~6.3.13",
+    "babel-preset-react": "~6.3.13",
+    "babel-preset-stage-0": "~6.3.13",
+    "babel-register": "^6.4.3",
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
     "react": "^0.14.6",
-    "babel-preset-es2015": "~6.3.13",
-    "babel-preset-react": "~6.3.13",
-    "babel-preset-stage-0": "~6.3.13"
+    "react-dom": "^0.14.6"
   }
 }
