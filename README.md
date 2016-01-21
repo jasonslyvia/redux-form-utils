@@ -133,7 +133,9 @@ const { name } = this.props.fields;
 <input {...name} />  // Give `input` a `value` props and a `onChange` props
 ```
 
-At last, when you enhance your component, make sure it has Redux store's `dispatch` function as a props. Alternatively, you can connect your component using `react-redux`'s `connect` method, in this case `dispatch` is passed as props too.
+At last, when you enhance your component, make sure it has Redux store's `dispatch` function as a props.
+
+Alternatively, you can connect your component using `react-redux`'s `connect` method, in this case `dispatch` is passed as props to your component too.
 
 ### Enhance your reducer
 
@@ -204,7 +206,7 @@ fields: ['name']
 
 ```
 
-It's quite enough for normal `input` and `select`, but for composite React components, like a `Calendar` or `react-reselect`, `value` and `onChange` seems insuffient.
+It's quite enough for normal `input` and `select`, but for composite React components, like a `Calendar` or `react-reselect`, `value` and `onChange` seems insufficient.
 
 So you can configure your field in an object as well:
 
@@ -242,6 +244,8 @@ const { startDate } = this.props.fields;
 ## Tips
 
 Since both `createForm` and `bindRedux` require the same option, it's wise to store these options into separate files and require them in your component and reducer.
+
+Check the [Live Demo](http://jasonslyvia.github.io/redux-form-utils/examples/) for more clue.
 
 ## Scripts
 
