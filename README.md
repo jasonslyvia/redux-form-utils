@@ -9,6 +9,8 @@ Make handling forms in Redux less painful by providing 2 helpful utility functio
    - `reducer`: a reducer function handling form related actions
    - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
 
+[Live Demo](http://jasonslyvia.github.io/redux-form-utils/examples/)
+
 ## Why
 
 Suppose you have a form component in Redux app which consists of many `input[type=text]` and `select`s. In Redux, you have to give each input an `onChange` event handler, and handle the change action inside your reducers respectively.
