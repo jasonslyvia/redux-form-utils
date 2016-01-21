@@ -131,7 +131,7 @@ const { name } = this.props.fields;
 <input {...name} />  // Give `input` a `value` props and a `onChange` props
 ```
 
-That's all your need to do to enhance your component.
+At last, when you enhance your component, make sure it has Redux store's `dispatch` function as a props. Alternatively, you can connect your component using `react-redux`'s `connect` method, in this case `dispatch` is passed as props too.
 
 ### Enhance your reducer
 
