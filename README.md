@@ -81,7 +81,7 @@ Notice how many lines of code have been reduced when you use `redux-form-utils`.
 
 That's why I create this.
 
-## How about `redux-form`
+## How about `redux-form`?
 
 It's great but it's too enormous, I just want a simple utility function to help me reduce repetitive work.
 
@@ -93,7 +93,7 @@ $ npm install --save redux-form-utils
 
 To completely make use of `redux-form-utils`, you have at least 2 steps to go.
 
-### Enhance your component
+### 1. Enhance your component
 
 First thing is you should enhance your component by using `createForm` function.
 
@@ -137,9 +137,9 @@ At last, when you enhance your component, make sure it has Redux store's `dispat
 
 Alternatively, you can connect your component using `react-redux`'s `connect` method, in this case `dispatch` is passed as props to your component too.
 
-### Enhance your reducer
+### 2. Enhance your reducer
 
-The second and the last thing to do is enhance your reducer.
+The second and the last thing to do is to enhance your reducer.
 
 Basically you should compose your form state to your reducer's `initialState`, and handle form actions in your reducer.
 
@@ -149,6 +149,19 @@ const { state: formState , reducer: formReducer } = bindRedux({
   form: 'my-form',
   fields: ['name', 'address']
 });
+
+
+// `formState` has a shape of:
+//  {
+//    form: {
+//      name: {
+//        value: '',
+//      },
+//      address: {
+//        value: '',
+//      }
+//    }
+//  }
 
 // Compose initialState with formState
 const initialState = {
