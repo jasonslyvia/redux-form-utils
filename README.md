@@ -1,10 +1,10 @@
 redux-form-utils [![Build Status](https://travis-ci.org/jasonslyvia/redux-form-utils.svg)](https://travis-ci.org/jasonslyvia/redux-form-utils) [![npm version](https://badge.fury.io/js/redux-form-utils.svg)](http://badge.fury.io/js/redux-form-utils)
 ==========================
 
-Make handling forms in Redux less painful by providing 2 helpful utility functions:
+Make handling forms in Redux less painful by providing two helpful utility functions:
 
  - `createForm(options)`: return a [Higher Order Component](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) which will pass all required form bindings (eg. `value`, `onChange` and more) to children
- - `bindRedux(options)`: return an object consists of 3 keys:
+ - `bindRedux(options)`: return an object consists of three keys:
    - `state`: the initialState of the form
    - `reducer`: a reducer function handling form related actions
    - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
