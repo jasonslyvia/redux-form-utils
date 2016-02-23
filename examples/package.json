@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demo": "./node_modules/.bin/webpack"
+    "demo": "NODE_ENV=production ./node_modules/.bin/webpack"
   },
   "author": "jasonslyvia <jasonslyvia@gmail.com> (http://undefinedblog.com/)",
   "license": "MIT",
