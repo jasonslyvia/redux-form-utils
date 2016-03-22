@@ -217,5 +217,26 @@ export function bindRedux({ form, fields }) {
           return state;
       }
     },
+
+    actionCreators: {
+      clear(field) {
+        return {
+          type: '@@form/CLEAR',
+          meta: {
+            form: form,
+            field: field,
+          },
+        };
+      },
+
+      clearAll() {
+        return {
+          type: '@@form/CLEAR_ALL',
+          meta: {
+            form: form,
+          },
+        };
+      }
+    },
   };
 }
