@@ -7,6 +7,7 @@ Make handling forms in Redux less painful by providing two helpful utility funct
  - `bindRedux(options)`: return an object consists of three keys:
    - `state`: the initialState of the form
    - `reducer`: a reducer function handling form related actions
+   - `actionCreators`: an object consists of two helpful action creators `clear(filed)` and `clearAll()`
    - `setInitValue`: a function to set initial value for form, useful when in `edit` mode
 
 [Live Demo](http://jasonslyvia.github.io/redux-form-utils/examples/)
