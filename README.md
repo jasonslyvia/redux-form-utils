@@ -4,7 +4,7 @@ redux-form-utils [![Build Status](https://travis-ci.org/jasonslyvia/redux-form-u
 Make handling forms in Redux less painful by providing two helpful utility functions:
 
  - `createForm(options)`: return a [Higher Order Component](https://gist.github.com/sebmarkbage/ef0bf1f338a7182b6775) which will pass all required form bindings (eg. `value`, `onChange` and more) to children
- - `bindRedux(options)`: return an object consists of three keys:
+ - `bindRedux(options)`: return an object consists of four keys:
    - `state`: the initialState of the form
    - `reducer`: a reducer function handling form related actions
    - `actionCreators`: an object consists of two helpful action creators `clear(filed)` and `clearAll()`
