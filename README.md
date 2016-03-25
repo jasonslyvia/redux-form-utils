@@ -146,7 +146,7 @@ Basically you should compose your form state to your reducer's `initialState`, a
 
 ```javascript
 import { bindRedux } from 'redux-form-utils';
-const { state: formState , reducer: formReducer } = bindRedux({
+const { state: formState , reducer: formReducer, actionCreators: formActionCreators } = bindRedux({
   form: 'my-form',
   fields: ['name', 'address']
 });
@@ -181,6 +181,18 @@ function reducer(state = initialState, action) {
       // Let formReducer handle default situation instead of returning state directly
       return formReducer(state, action);
   }
+}
+```
+
+**Bonus**
+
+If you some redux flow control middleware like [redux-sequence-action](https://github.com/jasonslyvia/redux-sequence-action), you can make use of actionCreators returned by `bindRedux`. It's an object consists of two keys: `clear(field)` and `clearAll()`.
+
+So you can dispatch some action in sequence, for example send an AJAX request and then clear all form fields.
+
+```js
+function add() {
+  return [sendReqeust(), clearAll()];
 }
 ```
 
