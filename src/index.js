@@ -74,7 +74,13 @@ export function createForm({ form, fields }) {
                 onChange: this.handleChange.bind(this, curr),
               };
             } else {
-              const { key, valueKey = 'value', resovler, changeType = 'onChange' } = curr;
+              const { key, valueKey = 'value', changeType = 'onChange' } = curr;
+              let { resolver, resovler } = curr;
+
+              // backward compatible for a typo
+              if (!resolver) {
+                resolver = resovler;
+              }
 
               if (!key || typeof key !== 'string') {
                 throw new TypeError('[redux-form-utils] If you provide a object within \`fields\` options, make sure this object has a key which named \`key\`, and the type of it\'s value is string.');
@@ -83,8 +89,8 @@ export function createForm({ form, fields }) {
               prev[key] = {
                 [valueKey]: this.props.form[key][valueKey],
                 [changeType]: (a, b, c, d) => {
-                  if (resovler) {
-                    const payload = resovler(a, b, c, d);
+                  if (resolver) {
+                    const payload = resolver(a, b, c, d);
                     this.handleChange.call(this, key, payload);
                   } else {
                     this.handleChange.call(this, key, a, b, c, d);
