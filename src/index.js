@@ -83,7 +83,7 @@ export function createForm({ form, fields }) {
               }
 
               if (!key || typeof key !== 'string') {
-                throw new TypeError('[redux-form-utils] If you provide a object within \`fields\` options, make sure this object has a key which named \`key\`, and the type of it\'s value is string.');
+                throw new TypeError('[redux-form-utils] If you provide an object within \`fields\` options, make sure this object has a key which named \`key\`, and the type of it\'s value is string.');
               }
 
               prev[key] = {
