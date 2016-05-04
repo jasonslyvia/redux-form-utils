@@ -1,6 +1,6 @@
 {
   "name": "redux-form-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Ease the pain of handling form bindings in Redux",
   "main": "lib/index.js",
   "scripts": {
