@@ -23,7 +23,7 @@ export function createForm({ form, fields }) {
       }
 
       componentWillMount() {
-        this.dispatch = this.props.dispatch || (this.contenxt && this.context.store && this.context.store.dispatch);
+        this.dispatch = this.props.dispatch || (this.context && this.context.store && this.context.store.dispatch);
         if (typeof this.dispatch !== 'function') {
           throw new ReferenceError(`[redux-form-utils] Please pass \`dispatch\` to ${form} as props or connect it with Redux's store.`);
         }
