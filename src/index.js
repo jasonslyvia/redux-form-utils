@@ -21,7 +21,7 @@ export function createForm({ form, fields }) {
         this.displayName = form + 'Form';
         this.state = {};
 
-        this.dispatch = this.props.dispatch || this.context.dispatch;
+        this.dispatch = this.props.dispatch || (this.context.store && this.context.store.dispatch);
         if (typeof this.dispatch !== 'function') {
           throw new ReferenceError(`[redux-form-utils] Please pass \`dispatch\` to ${form} as props or connect it with Redux's store.`);
         }
@@ -68,6 +68,10 @@ export function createForm({ form, fields }) {
       render() {
         return (
           <Component {...this.props} fields={fields.reduce((prev, curr) => {
+            if (!this.props.form) {
+              throw new Error(`[redux-form-utils] \`${this.displayName}.props.form\` is not found, make sure add \`formState\` to initialState using \`bindRedux\` in your reducer.`);
+            }
+
             if (typeof curr === 'string') {
               prev[curr] = {
                 value: this.props.form[curr].value,
