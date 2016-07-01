@@ -170,6 +170,18 @@ export function bindRedux({ form, fields }) {
         return state;
       }
 
+      function findConfig(field) {
+        const fieldConfig = config.fields.filter(k => {
+          if (typeof k === 'object') {
+            return k.key === field;
+          }
+
+          return k === field;
+        });
+
+        return fieldConfig[0] || {};
+      }
+
       switch (action.type) {
         case '@@form/VALUE_CHANGE': {
           let newField;
@@ -202,9 +214,10 @@ export function bindRedux({ form, fields }) {
           return {
             ...state,
             form: Object.keys(state.form).reduce((prev, curr) => {
+              const fieldConfig = findConfig(curr);
               prev[curr] = {
                 ...state.form[curr],
-                value: '',
+                value: fieldConfig.initValue || '',
               };
 
               return prev;
@@ -213,13 +226,15 @@ export function bindRedux({ form, fields }) {
         }
 
         case '@@form/CLEAR': {
+          const fieldConfig = findConfig(action.meta.field);
+
           return {
             ...state,
             form: {
               ...state.form,
               [action.meta.field]: {
                 ...state.form[action.meta.field],
-                value: '',
+                value: fieldConfig.initValue || '',
               },
             },
           };
