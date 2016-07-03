@@ -171,7 +171,7 @@ export function bindRedux({ form, fields }) {
       }
 
       function findConfig(field) {
-        const fieldConfig = config.fields.filter(k => {
+        const fieldConfig = fields.filter(k => {
           if (typeof k === 'object') {
             return k.key === field;
           }
