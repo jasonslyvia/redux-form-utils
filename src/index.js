@@ -33,8 +33,8 @@ export function createForm({ form, fields }) {
         let value = e;
 
         if (typeof e === 'object') {
-          if (typeof e.checked === 'boolean') {
-            value = e.checked;
+          if (e.target.tagName.toLowerCase() === 'input' && ['checkbox', 'radio'].indexOf(e.target.type) > -1) {
+            value = e.target.checked;
           } else {
             value = e.target.value;
           }
