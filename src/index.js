@@ -33,10 +33,14 @@ export function createForm({ form, fields }) {
         let value = e;
 
         if (typeof e === 'object') {
-          if (e.target.tagName.toLowerCase() === 'input' && ['checkbox', 'radio'].indexOf(e.target.type) > -1) {
-            value = e.target.checked;
-          } else {
-            value = e.target.value;
+          if (typeof e.target === 'object') {
+            if (e.target.tagName.toLowerCase() === 'input' && ['checkbox', 'radio'].indexOf(e.target.type) > -1) {
+              value = e.target.checked;
+            } else {
+              value = e.target.value;
+            }
+          } else if (e.value !== undefined) {
+            value = e.value;
           }
         }
 
