@@ -30,9 +30,14 @@ export function createForm({ form, fields }) {
       }
 
       handleChange(key, e) {
-        let value;
-        if (e.target) {
-          value = e.target.value;
+        let value = e;
+
+        if (typeof e === 'object') {
+          if (typeof e.checked === 'boolean') {
+            value = e.checked;
+          } else {
+            value = e.target.value;
+          }
         }
 
         this.dispatch({
