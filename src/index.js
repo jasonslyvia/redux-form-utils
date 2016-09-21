@@ -193,8 +193,22 @@ export function bindRedux({ form, fields }) {
 
       switch (action.type) {
         case '@@form/VALUE_CHANGE': {
+          const fieldConfig = findConfig(action.meta.field);
           let newField;
           if (action.meta.complex) {
+            return {
+              ...state,
+              form: {
+                ...state.form,
+                [action.meta.field]: {
+                  ...state.form[action.meta.field],
+                  ...action.payload,
+                },
+              },
+            };
+          }
+
+          if (typeof action.payload === 'object') {
             return {
               ...state,
               form: {
@@ -213,7 +227,7 @@ export function bindRedux({ form, fields }) {
               ...state.form,
               [action.meta.field]: {
                 ...state.form[action.meta.field],
-                value: action.payload,
+                [`${fieldConfig.valueKey || 'value'}`]: action.payload,
               },
             },
           };
@@ -226,7 +240,7 @@ export function bindRedux({ form, fields }) {
               const fieldConfig = findConfig(curr);
               prev[curr] = {
                 ...state.form[curr],
-                value: fieldConfig.initValue || '',
+                [`${fieldConfig.valueKey || 'value'}`]: fieldConfig.initValue || '',
               };
 
               return prev;
@@ -243,7 +257,7 @@ export function bindRedux({ form, fields }) {
               ...state.form,
               [action.meta.field]: {
                 ...state.form[action.meta.field],
-                value: fieldConfig.initValue || '',
+                [`${fieldConfig.valueKey || 'value'}`]: fieldConfig.initValue || '',
               },
             },
           };
